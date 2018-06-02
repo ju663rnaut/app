@@ -1,0 +1,38 @@
+version: 0.2
+
+# env:
+#   variables:
+#     key: "value"
+#     key: "value"
+#   parameter-store:
+#     key: "value"
+#     key: "value"
+            
+phases:
+  install:
+    commands:
+      - go version
+      # - docker version
+      - pwd
+      - ls -lah
+      - make lint-deps
+  pre_build:
+    commands:
+      - make test
+  build:
+    commands:
+      - make build
+  # post_build:
+  #   commands:
+  #     - command
+  #     - command
+# artifacts:
+#   files:
+#     - location
+#     - location
+#   discard-paths: yes
+#   base-directory: location
+# cache:
+#   paths:
+#     - path
+#     - pat
