@@ -16,6 +16,6 @@ func TestHelloWorldHandler(t *testing.T) {
 	}
 
 	if got, want := w.Body.String(), "hello world"; got != want {
-		t.Errorf("invalid response body. Got: %d, want: %d", got, want)
+		t.Errorf("invalid response body. Got: %s, want: %s", got, want)
 	}
 }
