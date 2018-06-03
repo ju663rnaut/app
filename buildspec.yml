@@ -1,24 +1,18 @@
 version: 0.2
 
-# env:
-#   variables:
-#     key: "value"
-#     key: "value"
-#   parameter-store:
-#     key: "value"
-#     key: "value"
+env:
+  variables:
+    ECR_REPO_URI: "unset"
 
 phases:
   install:
     commands:
       - go version
-      # - docker version
-      - pwd
-      - ls -lah
+      - dockerd &
+      - docker version
       - make lint-deps
   pre_build:
     commands:
-      - dockerd &
       - make test
   build:
     commands:
@@ -26,15 +20,5 @@ phases:
   post_build:
     commands:
       - $(aws ecr get-login --no-include-email --region eu-central-1)
-      - docker tag codebuild-go-test-app:latest 692551067032.dkr.ecr.eu-central-1.amazonaws.com/codebuild-go-test-app:latest
-      - docker push 692551067032.dkr.ecr.eu-central-1.amazonaws.com/codebuild-go-test-app:latest
-# artifacts:
-#   files:
-#     - location
-#     - location
-#   discard-paths: yes
-#   base-directory: location
-# cache:
-#   paths:
-#     - path
-#     - pat
+      - docker tag codebuild-go-test-app:latest ${ECR_REPO_URI}:latest
+      - docker push ${ECR_REPO_URI}:latest
