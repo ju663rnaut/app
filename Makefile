@@ -13,16 +13,17 @@ HAS_LINT := $(shell gometalinter.v2 -h)
 .PHONY: build
 build: clean
 	if ! [ -d ${BUILD_DIR} ]; then mkdir ${BUILD_DIR}; fi; \
-	${GO} build -v \
-		-ldflags "-s -w -X ${REPO}/pkg/version.Commit=${COMMIT} \
-		-X ${REPO}/pkg/version.BuildTime=$(shell date -u '+%Y-%m-%dT%H:%M:%SZ') \
-		-X ${REPO}/pkg/version.Repo=${REPO}" \
-		-o ${BUILD_DIR}/app cmd/app/main.go
+	${GO} build -v -o ${BUILD_DIR}/app cmd/app/main.go
 
 # Clean build folder
 .PHONY: clean
 clean:
 	rm -r ${BUILD_DIR}/* ||:
+
+# Run service via docker-compose
+.PHONY: docker-run
+docker-run:
+	docker-compose up --build
 
 # Install linter dependencies
 .PHONY: lint-deps
