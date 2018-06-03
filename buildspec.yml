@@ -18,6 +18,7 @@ phases:
       - make lint-deps
   pre_build:
     commands:
+      - dockerd &
       - make test
   build:
     commands:
@@ -25,7 +26,6 @@ phases:
   post_build:
     commands:
       - aws ecr get-login --no-include-email --region eu-central-1
-      - dockerd &
       - docker tag codebuild-go-test-app:latest 692551067032.dkr.ecr.eu-central-1.amazonaws.com/codebuild-go-test-app:latest
       - docker push 692551067032.dkr.ecr.eu-central-1.amazonaws.com/codebuild-go-test-app:latest
 # artifacts:
